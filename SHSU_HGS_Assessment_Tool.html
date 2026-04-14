@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHSU Employee Health Fair — Hand Grip Strength Assessment</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #E8601C;
+    --navy: #1B2A4A;
+    --cream: #FAF7F2;
+    --gold: #C8952A;
+    --green-ok: #2E7D52;
+    --red-risk: #C0392B;
+    --amber: #D97706;
+    --light-border: #E2D9CC;
+    --shadow: 0 4px 24px rgba(27,42,74,0.10);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    min-height: 100vh;
+  }
+
+  /* ===== SCREEN STYLES ===== */
+  @media screen {
+    .screen-wrapper {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 32px 20px 60px;
+    }
+
+    header {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      border-bottom: 3px solid var(--orange);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+
+    .logo-block {
+      flex-shrink: 0;
+      width: 64px;
+      height: 64px;
+      background: var(--navy);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-block svg { width: 40px; height: 40px; }
+
+    .header-text h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      font-weight: 900;
+      color: var(--navy);
+      line-height: 1.15;
+    }
+
+    .header-text p {
+      color: var(--orange);
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-top: 4px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .section-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--light-border);
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title .step-badge {
+      background: var(--orange);
+      color: #fff;
+      border-radius: 50%;
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+      font-family: 'Source Sans 3', sans-serif;
+      flex-shrink: 0;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.full-width { grid-column: 1 / -1; }
+
+    label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--navy);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    input[type="text"], input[type="number"], select {
+      padding: 10px 14px;
+      border: 2px solid var(--light-border);
+      border-radius: 8px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 1rem;
+      color: var(--navy);
+      background: var(--cream);
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--orange);
+      background: #fff;
+    }
+
+    .unit-hint {
+      font-size: 0.78rem;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    .protocol-box {
+      background: #F0F4FA;
+      border-left: 4px solid var(--navy);
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+    }
+
+    .protocol-box h4 {
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    .protocol-box ol {
+      padding-left: 18px;
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: #3a4a6a;
+    }
+
+    .grip-inputs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .grip-inputs .trial-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #777;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .hand-section h4 {
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+
+    .hand-section + .hand-section { margin-top: 20px; }
+
+    .calc-btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      background: var(--navy);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      margin-top: 8px;
+    }
+
+    .calc-btn:hover { background: var(--orange); transform: translateY(-1px); }
+    .calc-btn:active { transform: translateY(0); }
+
+    /* RESULTS */
+    #results-section { display: none; }
+
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .result-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+    }
+
+    .risk-badge {
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .risk-normal { background: #D4EDDA; color: var(--green-ok); }
+    .risk-low    { background: #FFF3CD; color: var(--amber); }
+    .risk-high   { background: #FDECEA; color: var(--red-risk); }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .metric-box {
+      background: var(--cream);
+      border: 1px solid var(--light-border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      text-align: center;
+    }
+
+    .metric-box .value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--navy);
+      line-height: 1;
+    }
+
+    .metric-box .unit {
+      font-size: 0.78rem;
+      color: #888;
+      margin-left: 2px;
+    }
+
+    .metric-box .label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #777;
+      margin-top: 5px;
+      font-weight: 600;
+    }
+
+    .cutoff-table-wrapper { overflow-x: auto; margin-bottom: 20px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    th {
+      background: var(--navy);
+      color: #fff;
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    td {
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--light-border);
+    }
+
+    tr:nth-child(even) td { background: #F8F5F0; }
+    tr.highlight td { background: #FFF3CD !important; font-weight: 600; }
+    tr.highlight-risk td { background: #FDECEA !important; font-weight: 600; }
+    tr.highlight-ok td { background: #D4EDDA !important; font-weight: 600; }
+
+    .risk-factors-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .risk-factor-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .rf-present { background: #FDECEA; color: var(--red-risk); }
+    .rf-absent  { background: #D4EDDA; color: var(--green-ok); }
+
+    .rf-icon { font-size: 1.1rem; }
+
+    .recommendations-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .recommendations-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--light-border);
+      font-size: 0.93rem;
+      line-height: 1.5;
+    }
+
+    .recommendations-list li:last-child { border-bottom: none; }
+
+    .rec-icon {
+      flex-shrink: 0;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem;
+      margin-top: 1px;
+    }
+
+    .rec-icon.alert { background: #FDECEA; color: var(--red-risk); }
+    .rec-icon.info  { background: #E8F4FD; color: #1565C0; }
+    .rec-icon.ok    { background: #D4EDDA; color: var(--green-ok); }
+
+    .disclaimer {
+      font-size: 0.8rem;
+      color: #888;
+      background: #F8F5F0;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-top: 20px;
+      line-height: 1.5;
+    }
+
+    .print-btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      background: var(--orange);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background 0.2s;
+    }
+
+    .print-btn:hover { background: #C9501A; }
+
+    .reset-btn {
+      display: block;
+      width: 100%;
+      padding: 11px;
+      background: transparent;
+      color: var(--navy);
+      border: 2px solid var(--navy);
+      border-radius: 10px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.2s;
+    }
+
+    .reset-btn:hover { background: var(--navy); color: #fff; }
+
+    .reference-note {
+      font-size: 0.78rem;
+      color: #aaa;
+      text-align: center;
+      margin-top: 40px;
+      line-height: 1.6;
+    }
+  }
+
+  /* ===== PRINT STYLES ===== */
+  @media print {
+    body {
+      background: #fff;
+      font-family: 'Source Sans 3', Arial, sans-serif;
+      font-size: 11pt;
+      color: #111;
+    }
+
+    .screen-wrapper { max-width: 100%; padding: 0; }
+
+    /* Hide form sections when printing */
+    #form-section, .calc-btn, .print-btn, .reset-btn,
+    .reference-note, .protocol-box, header .logo-block { display: none !important; }
+
+    header {
+      border-bottom: 2pt solid #1B2A4A;
+      padding-bottom: 10pt;
+      margin-bottom: 14pt;
+    }
+
+    .header-text h1 {
+      font-size: 18pt;
+      color: #1B2A4A;
+    }
+
+    .header-text p { color: #E8601C; font-size: 9pt; }
+
+    #results-section { display: block !important; }
+
+    .section-card {
+      border: 1pt solid #ccc;
+      border-radius: 6pt;
+      padding: 14pt;
+      margin-bottom: 12pt;
+      page-break-inside: avoid;
+    }
+
+    .section-title {
+      font-size: 13pt;
+      font-weight: 700;
+      color: #1B2A4A;
+      margin-bottom: 10pt;
+    }
+
+    .step-badge { display: none; }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8pt;
+    }
+
+    .metric-box {
+      border: 1pt solid #ccc;
+      border-radius: 4pt;
+      padding: 8pt;
+      text-align: center;
+    }
+
+    .metric-box .value { font-size: 18pt; font-weight: 700; }
+    .metric-box .label { font-size: 7pt; }
+
+    .risk-badge {
+      display: inline-block;
+      padding: 4pt 10pt;
+      border: 2pt solid currentColor;
+      border-radius: 20pt;
+      font-weight: 700;
+      font-size: 10pt;
+    }
+
+    .risk-factors-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6pt;
+    }
+
+    .risk-factor-item {
+      border: 1pt solid #ccc;
+      border-radius: 3pt;
+      padding: 5pt 8pt;
+      font-size: 9pt;
+    }
+
+    table { font-size: 9pt; }
+    th { background: #1B2A4A !important; color: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    tr.highlight td { background: #FFF3CD !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    tr.highlight-risk td { background: #FDECEA !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    tr.highlight-ok td { background: #D4EDDA !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+    .recommendations-list li { font-size: 9pt; }
+    .disclaimer { font-size: 8pt; border: 1pt solid #ddd; padding: 8pt; border-radius: 3pt; }
+
+    .result-header { display: flex; justify-content: space-between; align-items: center; }
+
+    .print-date { font-size: 8pt; color: #666; }
+  }
+</style>
+</head>
+<body>
+<div class="screen-wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-block">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="18" stroke="#E8601C" stroke-width="2.5"/>
+        <path d="M14 26 C14 26 14 18 18 16 C22 14 24 18 24 18 C24 18 22 12 26 11" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="20" cy="28" r="3" fill="#E8601C"/>
+        <line x1="20" y1="25" x2="20" y2="20" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="header-text">
+      <h1>Hand Grip Strength<br>Health Risk Assessment</h1>
+      <p>Sam Houston State University &mdash; Employee Health Fair 2026</p>
+    </div>
+  </header>
+
+  <!-- FORM SECTION -->
+  <div id="form-section">
+
+    <!-- Step 1: Participant Info -->
+    <div class="section-card">
+      <div class="section-title">
+        <span class="step-badge">1</span> Participant Information
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" placeholder="Employee name">
+        </div>
+        <div class="form-group">
+          <label for="dept">Department</label>
+          <input type="text" id="dept" placeholder="Department / College">
+        </div>
+        <div class="form-group">
+          <label for="age">Age</label>
+          <input type="number" id="age" min="18" max="99" placeholder="Years">
+        </div>
+        <div class="form-group">
+          <label for="sex">Sex</label>
+          <select id="sex">
+            <option value="">— Select —</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="dominant">Dominant Hand</label>
+          <select id="dominant">
+            <option value="">— Select —</option>
+            <option value="right">Right</option>
+            <option value="left">Left</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="weight_lbs">Body Weight</label>
+          <input type="number" id="weight_lbs" min="66" max="550" placeholder="lbs" step="0.5">
+          <span class="unit-hint">pounds (lbs) — converted to kg for Relative HGS calculation</span>
+        </div>
+        <div class="form-group">
+          <label>Height</label>
+          <div style="display:flex; gap:8px;">
+            <div style="flex:1;">
+              <input type="number" id="height_ft" min="3" max="7" placeholder="ft" step="1" style="width:100%;">
+              <span class="unit-hint">feet</span>
+            </div>
+            <div style="flex:1;">
+              <input type="number" id="height_in" min="0" max="11" placeholder="in" step="0.5" style="width:100%;">
+              <span class="unit-hint">inches</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="bmi">BMI (auto-calculated)</label>
+          <input type="number" id="bmi" placeholder="Will auto-fill" readonly style="background:#eee; color:#666;">
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Protocol -->
+    <div class="section-card">
+      <div class="section-title">
+        <span class="step-badge">2</span> Measurement Protocol
+      </div>
+      <div class="protocol-box">
+        <h4>Standard Protocol (ASHT / Southampton University)</h4>
+        <ol>
+          <li>Participant sits comfortably with feet flat on the floor.</li>
+          <li>Shoulder in neutral position; <strong>elbow bent at 90°</strong>.</li>
+          <li>Wrist between <strong>0–30° of dorsiflexion</strong> (neutral).</li>
+          <li>Participant grips the Jamar dynamometer firmly using all four fingers; thumb opposite.</li>
+          <li>Instruction: <em>"Squeeze as hard as you can until I say stop."</em></li>
+          <li>Maximal effort held for <strong>3–5 seconds</strong>. No jerking.</li>
+          <li>Rest <strong>~1 minute</strong> between trials.</li>
+          <li>Perform <strong>3 trials per hand</strong>, alternating hands. Record all values below.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Step 3: Enter Readings -->
+    <div class="section-card">
+      <div class="section-title">
+        <span class="step-badge">3</span> Enter Grip Strength Readings (kg)
+      </div>
+
+      <div class="hand-section">
+        <h4>&#9679; Right Hand</h4>
+        <div class="grip-inputs">
+          <div>
+            <span class="trial-label">Trial 1</span>
+            <input type="number" id="r1" min="0" max="265" step="0.5" placeholder="lbs">
+          </div>
+          <div>
+            <span class="trial-label">Trial 2</span>
+            <input type="number" id="r2" min="0" max="265" step="0.5" placeholder="lbs">
+          </div>
+          <div>
+            <span class="trial-label">Trial 3</span>
+            <input type="number" id="r3" min="0" max="265" step="0.5" placeholder="lbs">
+          </div>
+        </div>
+      </div>
+
+      <div class="hand-section">
+        <h4>&#9679; Left Hand</h4>
+        <div class="grip-inputs">
+          <div>
+            <span class="trial-label">Trial 1</span>
+            <input type="number" id="l1" min="0" max="265" step="0.5" placeholder="lbs">
+          </div>
+          <div>
+            <span class="trial-label">Trial 2</span>
+            <input type="number" id="l2" min="0" max="265" step="0.5" placeholder="lbs">
+          </div>
+          <div>
+            <span class="trial-label">Trial 3</span>
+            <input type="number" id="l3" min="0" max="265" step="0.5" placeholder="lbs">
+          </div>
+        </div>
+      </div>
+      <p style="font-size:0.8rem; color:#888; margin-top:14px;">&#8505; Enter readings in <strong>pounds (lbs)</strong> as shown on the dynamometer. All values are automatically converted to kg for scoring.</p>
+
+      <div style="margin-top:24px;">
+        <button class="calc-btn" onclick="calculate()">&#9654;&nbsp; Calculate Risk Assessment</button>
+      </div>
+    </div>
+  </div><!-- /#form-section -->
+
+  <!-- RESULTS SECTION -->
+  <div id="results-section">
+
+    <div class="section-card">
+      <div class="result-header">
+        <div>
+          <h2>Assessment Results</h2>
+          <div id="participant-summary" style="font-size:0.9rem; color:#666; margin-top:4px;"></div>
+          <div class="print-date" id="print-date"></div>
+        </div>
+        <div id="overall-risk-badge"></div>
+      </div>
+
+      <!-- Key Metrics -->
+      <div class="metrics-grid" id="metrics-grid"></div>
+    </div>
+
+    <!-- Cut-off Reference Table -->
+    <div class="section-card">
+      <div class="section-title">
+        <span class="step-badge">&#10003;</span> International HGS Cut-off Reference (Sarcopenia Guidelines)
+      </div>
+      <div class="cutoff-table-wrapper">
+        <table id="cutoff-table">
+          <thead>
+            <tr>
+              <th>Guideline</th>
+              <th>Region</th>
+              <th>Mean Age</th>
+              <th>Cut-off Males</th>
+              <th>Cut-off Females</th>
+              <th>Your Result</th>
+            </tr>
+          </thead>
+          <tbody id="cutoff-tbody"></tbody>
+        </table>
+      </div>
+      <p style="font-size:0.78rem; color:#888; margin-top:8px;">&#9733; Highlighted row = guideline most applicable to your profile. Values from Vaishya et al. (2024).</p>
+    </div>
+
+    <!-- Risk Factors -->
+    <div class="section-card">
+      <div class="section-title">
+        <span class="step-badge">!</span> Associated Risk Factors Identified
+      </div>
+      <div class="risk-factors-grid" id="risk-factors-grid"></div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="section-card">
+      <div class="section-title">
+        <span class="step-badge">&#10097;</span> Health Recommendations
+      </div>
+      <ul class="recommendations-list" id="recommendations-list"></ul>
+
+      <div class="disclaimer">
+        <strong>Disclaimer:</strong> This assessment is a screening tool for educational purposes only and does not constitute a medical diagnosis. Handgrip strength cut-off values are based on Vaishya et al. (2024), <em>Journal of Health, Population and Nutrition</em>. Results should be discussed with a qualified healthcare provider. The SHSU Kinesiology Department recommends using the EWGSOP2 and FNIH guidelines as primary reference for this population.
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <button class="print-btn" onclick="window.print()">&#128438;&nbsp; Print / Save PDF Report</button>
+    <button class="reset-btn" onclick="resetForm()">&#8635;&nbsp; Assess Another Participant</button>
+
+  </div><!-- /#results-section -->
+
+  <div class="reference-note">
+    Based on: Vaishya R, Misra A, Vaish A, Ursino N, D'Ambrosi R. (2024). Hand grip strength as a proposed new vital sign of health: a narrative review of evidences. <em>Journal of Health, Population and Nutrition</em>, 43:7.<br>
+    Developed for the SHSU Employee Health Fair 2026 &bull; Department of Kinesiology, College of Health Sciences
+  </div>
+
+</div><!-- /.screen-wrapper -->
+
+<script>
+  // Auto-calculate BMI from lbs and ft/in
+  ['weight_lbs','height_ft','height_in'].forEach(id => {
+    document.getElementById(id).addEventListener('input', calcBMI);
+  });
+
+  function calcBMI() {
+    const wLbs = parseFloat(document.getElementById('weight_lbs').value);
+    const ft   = parseFloat(document.getElementById('height_ft').value) || 0;
+    const inch = parseFloat(document.getElementById('height_in').value) || 0;
+    const totalInches = ft * 12 + inch;
+
+    if (wLbs > 0 && totalInches > 0) {
+      const wKg  = wLbs * 0.453592;
+      const hM   = totalInches * 0.0254;
+      document.getElementById('bmi').value = (wKg / (hM * hM)).toFixed(1);
+    } else {
+      document.getElementById('bmi').value = '';
+    }
+  }
+
+  // Cut-off data from Vaishya et al. Table 1 (in kg — used internally)
+  const cutoffs = [
+    { name: 'EWGSOP2',     region: 'Europe', age: '77.0 yrs',    male: 27,   female: 16 },
+    { name: 'FNIH',        region: 'USA',    age: '~75–79 yrs',  male: 26,   female: 16 },
+    { name: 'AWGS 2019',   region: 'Asia',   age: 'N/A',         male: 28,   female: 18 },
+    { name: 'Sarco-CUBES', region: 'India',  age: '44.4 yrs',    male: 27.5, female: 18 },
+  ];
+
+  function lbsToKg(lbs) { return lbs * 0.453592; }
+  function kgToLbs(kg)   { return kg  / 0.453592; }
+
+  function getMax(vals) {
+    const nums = vals.filter(v => !isNaN(v) && v > 0);
+    return nums.length ? Math.max(...nums) : null;
+  }
+
+  function calculate() {
+    const name = document.getElementById('name').value || 'Participant';
+    const dept = document.getElementById('dept').value || '—';
+    const age  = parseInt(document.getElementById('age').value);
+    const sex  = document.getElementById('sex').value;
+    const dom  = document.getElementById('dominant').value;
+
+    // Imperial inputs
+    const wLbs    = parseFloat(document.getElementById('weight_lbs').value);
+    const ft      = parseFloat(document.getElementById('height_ft').value) || 0;
+    const inchVal = parseFloat(document.getElementById('height_in').value) || 0;
+    const bmi     = parseFloat(document.getElementById('bmi').value);
+
+    // Grip readings in lbs — convert to kg for scoring
+    const rLbs = [
+      parseFloat(document.getElementById('r1').value),
+      parseFloat(document.getElementById('r2').value),
+      parseFloat(document.getElementById('r3').value),
+    ];
+    const lLbs = [
+      parseFloat(document.getElementById('l1').value),
+      parseFloat(document.getElementById('l2').value),
+      parseFloat(document.getElementById('l3').value),
+    ];
+
+    if (!sex) { alert('Please select sex to proceed.'); return; }
+
+    const rMaxLbs = getMax(rLbs), lMaxLbs = getMax(lLbs);
+    if (!rMaxLbs && !lMaxLbs) { alert('Please enter at least one grip strength reading.'); return; }
+
+    const rightMaxLbs = rMaxLbs || 0, leftMaxLbs = lMaxLbs || 0;
+
+    // Convert to kg for all clinical comparisons
+    const rightMaxKg  = lbsToKg(rightMaxLbs);
+    const leftMaxKg   = lbsToKg(leftMaxLbs);
+    const absoluteKg  = Math.max(rightMaxKg, leftMaxKg);
+    const absoluteLbs = Math.max(rightMaxLbs, leftMaxLbs);
+
+    // Weight in kg for relative HGS
+    const wKg = wLbs ? lbsToKg(wLbs) : null;
+    const relativeHGS = (wKg && bmi) ? +(absoluteKg / bmi).toFixed(2) : null;
+
+    // Height display string
+    const heightDisplay = (ft || inchVal) ? `${ft > 0 ? ft+"'" : ''}${inchVal > 0 ? inchVal+'"' : ''}` : '—';
+
+    // Clinical scoring against cut-offs (all in kg)
+    const sexKey = sex === 'male' ? 'male' : 'female';
+    const isBelowEWGSOP2 = absoluteKg < cutoffs[0][sexKey];
+    const isBelowFNIH    = absoluteKg < cutoffs[1][sexKey];
+    const isBelowAWGS    = absoluteKg < cutoffs[2][sexKey];
+    const isBelowSarco   = absoluteKg < cutoffs[3][sexKey];
+    const belowCount = [isBelowEWGSOP2, isBelowFNIH, isBelowAWGS, isBelowSarco].filter(Boolean).length;
+
+    let riskLevel = 'normal', riskLabel = 'Within Normal Range', riskIcon = '✓';
+    if (belowCount >= 3)      { riskLevel = 'high'; riskLabel = 'High Risk — Low Grip Strength'; riskIcon = '⚠'; }
+    else if (belowCount >= 1) { riskLevel = 'low';  riskLabel = 'Borderline — Monitoring Recommended'; riskIcon = '◉'; }
+
+    // ---- POPULATE RESULTS ----
+    document.getElementById('participant-summary').textContent =
+      `${name} | ${dept} | Age: ${age || '—'} | ${sex.charAt(0).toUpperCase()+sex.slice(1)} | Dominant: ${dom || '—'} | Height: ${heightDisplay} | Weight: ${wLbs ? wLbs+' lbs' : '—'}`;
+    document.getElementById('print-date').textContent =
+      'Assessment date: ' + new Date().toLocaleDateString('en-US', {year:'numeric', month:'long', day:'numeric'});
+
+    // Risk badge
+    document.getElementById('overall-risk-badge').innerHTML =
+      `<span class="risk-badge risk-${riskLevel}">${riskIcon} ${riskLabel}</span>`;
+
+    // Metrics — show both lbs (entered) and kg (clinical)
+    const mg = document.getElementById('metrics-grid');
+    mg.innerHTML = `
+      <div class="metric-box">
+        <div class="value">${rightMaxLbs.toFixed(1)}<span class="unit">lbs</span></div>
+        <div class="label" style="margin-bottom:2px;">Right Hand Max</div>
+        <div style="font-size:0.72rem;color:#aaa;">${rightMaxKg.toFixed(1)} kg</div>
+      </div>
+      <div class="metric-box">
+        <div class="value">${leftMaxLbs.toFixed(1)}<span class="unit">lbs</span></div>
+        <div class="label" style="margin-bottom:2px;">Left Hand Max</div>
+        <div style="font-size:0.72rem;color:#aaa;">${leftMaxKg.toFixed(1)} kg</div>
+      </div>
+      <div class="metric-box">
+        <div class="value">${absoluteLbs.toFixed(1)}<span class="unit">lbs</span></div>
+        <div class="label" style="margin-bottom:2px;">Absolute HGS</div>
+        <div style="font-size:0.72rem;color:#aaa;">${absoluteKg.toFixed(1)} kg (scored)</div>
+      </div>
+      <div class="metric-box">
+        <div class="value">${relativeHGS !== null ? relativeHGS : '—'}</div>
+        <div class="label">Relative HGS (kg÷BMI)</div>
+      </div>
+      ${bmi ? `<div class="metric-box"><div class="value">${bmi}</div><div class="label">BMI</div></div>` : ''}
+    `;
+
+    // Cut-off table — show cut-offs in both units
+    const tbody = document.getElementById('cutoff-tbody');
+    tbody.innerHTML = '';
+    cutoffs.forEach((co, i) => {
+      const cutKg   = co[sexKey];
+      const cutLbs  = kgToLbs(cutKg).toFixed(1);
+      const below   = absoluteKg < cutKg;
+      const trClass = (i === 0 || i === 1) ? (below ? 'highlight-risk' : 'highlight-ok') : '';
+      const statusIcon = below ? '⚠ Below cut-off' : '✓ Above cut-off';
+      tbody.innerHTML += `
+        <tr class="${trClass}">
+          <td><strong>${co.name}</strong></td>
+          <td>${co.region}</td>
+          <td>${co.age}</td>
+          <td>&lt; ${co.male} kg (&lt; ${kgToLbs(co.male).toFixed(1)} lbs)</td>
+          <td>&lt; ${co.female} kg (&lt; ${kgToLbs(co.female).toFixed(1)} lbs)</td>
+          <td>${statusIcon}<br><small>${absoluteLbs.toFixed(1)} lbs / ${absoluteKg.toFixed(1)} kg vs &lt;${cutKg} kg</small></td>
+        </tr>`;
+    });
+
+    // Risk factors
+    const rfGrid = document.getElementById('risk-factors-grid');
+    const risks = [
+      { label: 'Low Grip Strength (vs EWGSOP2/FNIH)',          present: isBelowEWGSOP2 || isBelowFNIH },
+      { label: 'Age ≥ 45 (progressive HGS decline)',           present: age >= 45 },
+      { label: 'BMI indicates abdominal obesity risk',          present: bmi >= 30 },
+      { label: 'Sedentary lifestyle risk (review with participant)', present: false },
+      { label: 'Relative HGS below 1.0 (if computed)',         present: relativeHGS !== null && relativeHGS < 1.0 },
+      { label: 'Functional disability risk (HGS < 28/18 kg)',  present: sex==='male' ? absoluteKg < 28 : absoluteKg < 18 },
+    ];
+    rfGrid.innerHTML = '';
+    risks.forEach(rf => {
+      rfGrid.innerHTML += `
+        <div class="risk-factor-item ${rf.present ? 'rf-present' : 'rf-absent'}">
+          <span class="rf-icon">${rf.present ? '⚠' : '✓'}</span>
+          <span>${rf.label}</span>
+        </div>`;
+    });
+
+    // Recommendations
+    const recList = document.getElementById('recommendations-list');
+    recList.innerHTML = '';
+    const recs = [];
+    if (riskLevel === 'high') {
+      recs.push({ type: 'alert', text: 'Results suggest low handgrip strength. A follow-up consultation with a physician or kinesiology specialist is strongly recommended.' });
+      recs.push({ type: 'alert', text: 'Discuss potential screening for Type 2 Diabetes, cardiovascular risk factors, and sarcopenia with your healthcare provider.' });
+    }
+    if (riskLevel !== 'normal') {
+      recs.push({ type: 'info', text: 'Progressive resistance training (2–3 sessions/week) targeting upper and lower extremities can significantly improve grip strength.' });
+      recs.push({ type: 'info', text: 'Nutritional assessment recommended. Adequate protein intake (1.2–1.6 g/kg body weight/day) supports muscle mass maintenance.' });
+    }
+    if (age >= 45) {
+      recs.push({ type: 'info', text: 'After age 45, HGS shows progressive decline. Annual re-assessment is recommended to monitor changes over time.' });
+    }
+    if (bmi >= 25) {
+      recs.push({ type: 'info', text: 'Evidence links abdominal obesity with reduced grip strength. Aerobic activity and dietary improvements may benefit both weight and muscle function.' });
+    }
+    recs.push({ type: 'ok', text: 'Regular handgrip strength monitoring can serve as an early indicator of overall health status. Re-assess at next Employee Health Fair.' });
+    recs.push({ type: 'ok', text: 'SHSU Kinesiology Department offers faculty/staff fitness consultations. Contact the department for personalized exercise programming.' });
+    if (riskLevel === 'normal') {
+      recs.push({ type: 'ok', text: 'Great result! Maintain your current activity level. HGS is an important health biomarker — keep monitoring annually.' });
+    }
+    recs.forEach(r => {
+      recList.innerHTML += `
+        <li>
+          <div class="rec-icon ${r.type}">${r.type==='alert'?'!':r.type==='info'?'i':'✓'}</div>
+          <span>${r.text}</span>
+        </li>`;
+    });
+
+    document.getElementById('form-section').style.display = 'none';
+    document.getElementById('results-section').style.display = 'block';
+    window.scrollTo(0, 0);
+  }
+
+  function resetForm() {
+    ['name','dept','age','sex','dominant','weight_lbs','height_ft','height_in','bmi',
+     'r1','r2','r3','l1','l2','l3'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el.tagName === 'SELECT') el.selectedIndex = 0;
+      else el.value = '';
+    });
+    document.getElementById('form-section').style.display = 'block';
+    document.getElementById('results-section').style.display = 'none';
+    window.scrollTo(0, 0);
+  }
+</script>
+</body>
+</html>

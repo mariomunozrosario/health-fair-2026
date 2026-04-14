@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHSU Employee Health Fair — Sleep & Recovery Assessment</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #E8601C;
+    --navy: #1B2A4A;
+    --cream: #FAF7F2;
+    --light-border: #E2D9CC;
+    --shadow: 0 4px 24px rgba(27,42,74,0.10);
+    --green-ok: #2E7D52;
+    --amber: #D97706;
+    --red-risk: #C0392B;
+    --indigo: #3730A3;
+    --teal: #0F766E;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    min-height: 100vh;
+  }
+
+  @media screen {
+    .screen-wrapper { max-width: 860px; margin: 0 auto; padding: 32px 20px 60px; }
+
+    header {
+      display: flex; align-items: flex-start; gap: 20px;
+      border-bottom: 3px solid var(--orange);
+      padding-bottom: 24px; margin-bottom: 32px;
+    }
+
+    .logo-block {
+      flex-shrink: 0; width: 64px; height: 64px;
+      background: var(--navy); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-block svg { width: 40px; height: 40px; }
+
+    .header-text h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem; font-weight: 900; color: var(--navy); line-height: 1.15;
+    }
+    .header-text p {
+      color: var(--orange); font-weight: 600; font-size: 0.95rem;
+      margin-top: 4px; letter-spacing: 0.04em; text-transform: uppercase;
+    }
+
+    /* Progress bar */
+    .progress-bar-wrap {
+      background: var(--light-border); border-radius: 99px;
+      height: 6px; margin-bottom: 28px; overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%; background: var(--orange);
+      border-radius: 99px; transition: width 0.4s ease;
+    }
+    .progress-label {
+      font-size: 0.8rem; color: #888; font-weight: 600;
+      text-align: right; margin-bottom: 6px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+
+    /* Section cards */
+    .section-card {
+      background: #fff; border-radius: 16px; padding: 28px 32px;
+      margin-bottom: 24px; box-shadow: var(--shadow);
+      border: 1px solid var(--light-border);
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; font-weight: 700; color: var(--navy);
+      margin-bottom: 6px;
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    .section-subtitle {
+      font-size: 0.85rem; color: #888; margin-bottom: 20px;
+      padding-left: 38px; line-height: 1.5;
+    }
+
+    .screener-badge {
+      display: inline-block; padding: 2px 10px;
+      border-radius: 99px; font-size: 0.72rem;
+      font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; font-family: 'Source Sans 3', sans-serif;
+      vertical-align: middle; margin-left: 8px;
+    }
+    .badge-psqi  { background: #E8F4FD; color: #1565C0; }
+    .badge-ess   { background: #FFF3E0; color: #E65100; }
+    .badge-stop  { background: #FCE4EC; color: #880E4F; }
+
+    .step-badge {
+      background: var(--orange); color: #fff; border-radius: 50%;
+      width: 28px; height: 28px; display: flex; align-items: center;
+      justify-content: center; font-size: 0.85rem; font-weight: 700;
+      font-family: 'Source Sans 3', sans-serif; flex-shrink: 0;
+    }
+
+    /* Form elements */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+
+    label.field-label {
+      font-size: 0.88rem; font-weight: 600; color: var(--navy);
+      letter-spacing: 0.02em; text-transform: uppercase;
+    }
+
+    input[type="text"], input[type="number"], select {
+      padding: 10px 14px; border: 2px solid var(--light-border);
+      border-radius: 8px; font-family: 'Source Sans 3', sans-serif;
+      font-size: 1rem; color: var(--navy); background: var(--cream);
+      transition: border-color 0.2s; width: 100%;
+    }
+    input:focus, select:focus {
+      outline: none; border-color: var(--orange); background: #fff;
+    }
+
+    /* Question rows */
+    .q-block {
+      border-bottom: 1px solid var(--light-border);
+      padding: 14px 0;
+    }
+    .q-block:last-child { border-bottom: none; }
+
+    .q-text {
+      font-size: 0.95rem; font-weight: 600; color: var(--navy);
+      margin-bottom: 10px; line-height: 1.45;
+    }
+
+    .q-sub {
+      font-size: 0.82rem; color: #777; font-weight: 400;
+      margin-top: 2px; margin-bottom: 10px;
+    }
+
+    /* Radio group */
+    .radio-group { display: flex; flex-direction: column; gap: 7px; }
+
+    .radio-option {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 12px; border-radius: 8px; cursor: pointer;
+      border: 2px solid var(--light-border); background: var(--cream);
+      transition: all 0.15s; font-size: 0.9rem;
+    }
+    .radio-option:hover { border-color: var(--orange); background: #fff; }
+    .radio-option input[type="radio"] { accent-color: var(--orange); width: 16px; height: 16px; flex-shrink: 0; }
+    .radio-option.selected { border-color: var(--orange); background: #FFF5F0; font-weight: 600; }
+
+    /* Yes/No toggle for STOP-BANG */
+    .yn-group { display: flex; gap: 10px; }
+    .yn-btn {
+      flex: 1; padding: 9px; border: 2px solid var(--light-border);
+      border-radius: 8px; background: var(--cream); cursor: pointer;
+      font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem;
+      font-weight: 600; color: #888; transition: all 0.15s; text-align: center;
+    }
+    .yn-btn.yes-sel { border-color: var(--red-risk); background: #FDECEA; color: var(--red-risk); }
+    .yn-btn.no-sel  { border-color: var(--green-ok); background: #D4EDDA; color: var(--green-ok); }
+    .yn-btn:hover   { border-color: var(--navy); }
+
+    /* Inline number input for PSQI */
+    .inline-num {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    }
+    .inline-num input {
+      width: 90px;
+    }
+
+    /* Navigation buttons */
+    .nav-buttons { display: flex; gap: 12px; margin-top: 8px; }
+
+    .btn-primary {
+      flex: 1; padding: 15px; background: var(--navy); color: #fff;
+      border: none; border-radius: 10px;
+      font-family: 'Playfair Display', serif; font-size: 1.1rem;
+      font-weight: 700; cursor: pointer; transition: background 0.2s, transform 0.1s;
+    }
+    .btn-primary:hover { background: var(--orange); transform: translateY(-1px); }
+
+    .btn-secondary {
+      padding: 15px 24px; background: transparent; color: var(--navy);
+      border: 2px solid var(--navy); border-radius: 10px;
+      font-family: 'Source Sans 3', sans-serif; font-size: 0.95rem;
+      font-weight: 600; cursor: pointer; transition: all 0.2s;
+    }
+    .btn-secondary:hover { background: var(--navy); color: #fff; }
+
+    /* ===== RESULTS ===== */
+    #results-section { display: none; }
+
+    .result-header {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 24px;
+    }
+    .result-header h2 {
+      font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900;
+    }
+
+    /* Domain score cards */
+    .domain-cards {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px; margin-bottom: 8px;
+    }
+
+    .domain-card {
+      border-radius: 12px; padding: 18px 20px;
+      border: 1px solid var(--light-border); position: relative; overflow: hidden;
+    }
+
+    .domain-card .dc-label {
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.07em; color: #888; margin-bottom: 6px;
+    }
+
+    .domain-card .dc-screener {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.05em; margin-bottom: 10px;
+    }
+
+    .domain-card .dc-score {
+      font-family: 'Playfair Display', serif; font-size: 2.2rem;
+      font-weight: 900; line-height: 1; margin-bottom: 4px;
+    }
+
+    .domain-card .dc-max {
+      font-size: 0.78rem; color: #aaa; margin-bottom: 8px;
+    }
+
+    .domain-card .dc-status {
+      font-size: 0.82rem; font-weight: 700;
+      display: flex; align-items: center; gap: 5px;
+    }
+
+    .domain-card .dc-bar-wrap {
+      height: 4px; background: #eee; border-radius: 99px;
+      margin-top: 10px; overflow: hidden;
+    }
+    .domain-card .dc-bar { height: 100%; border-radius: 99px; transition: width 0.6s ease; }
+
+    /* Status colors */
+    .status-good  { color: var(--green-ok); }
+    .status-fair  { color: var(--amber); }
+    .status-poor  { color: var(--red-risk); }
+    .card-good  { background: #F0FBF4; }
+    .card-fair  { background: #FFFBEB; }
+    .card-poor  { background: #FEF2F2; }
+    .bar-good   { background: var(--green-ok); }
+    .bar-fair   { background: var(--amber); }
+    .bar-poor   { background: var(--red-risk); }
+
+    /* PSQI domain breakdown table */
+    .domain-table-wrap { overflow-x: auto; margin-bottom: 20px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    th {
+      background: var(--navy); color: #fff; padding: 9px 14px;
+      text-align: left; font-weight: 600; font-size: 0.8rem;
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    td { padding: 8px 14px; border-bottom: 1px solid var(--light-border); }
+    tr:nth-child(even) td { background: #F8F5F0; }
+    .score-pill {
+      display: inline-block; padding: 2px 10px; border-radius: 99px;
+      font-size: 0.8rem; font-weight: 700;
+    }
+    .pill-good { background: #D4EDDA; color: var(--green-ok); }
+    .pill-fair { background: #FFF3CD; color: var(--amber); }
+    .pill-poor { background: #FDECEA; color: var(--red-risk); }
+
+    /* Recommendations */
+    .rec-list { list-style: none; }
+    .rec-list li {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 10px 0; border-bottom: 1px solid var(--light-border);
+      font-size: 0.92rem; line-height: 1.5;
+    }
+    .rec-list li:last-child { border-bottom: none; }
+    .rec-icon {
+      flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.82rem; margin-top: 1px;
+    }
+    .rec-icon.alert { background: #FDECEA; color: var(--red-risk); }
+    .rec-icon.info  { background: #E8F4FD; color: #1565C0; }
+    .rec-icon.ok    { background: #D4EDDA; color: var(--green-ok); }
+
+    .disclaimer {
+      font-size: 0.8rem; color: #888; background: #F8F5F0;
+      border-radius: 8px; padding: 12px 16px; margin-top: 20px; line-height: 1.5;
+    }
+
+    .print-btn {
+      display: block; width: 100%; padding: 14px;
+      background: var(--orange); color: #fff; border: none;
+      border-radius: 10px; font-family: 'Playfair Display', serif;
+      font-size: 1.05rem; font-weight: 700; cursor: pointer; margin-top: 20px;
+      transition: background 0.2s;
+    }
+    .print-btn:hover { background: #C9501A; }
+
+    .reset-btn {
+      display: block; width: 100%; padding: 11px; background: transparent;
+      color: var(--navy); border: 2px solid var(--navy); border-radius: 10px;
+      font-family: 'Source Sans 3', sans-serif; font-size: 0.95rem;
+      font-weight: 600; cursor: pointer; margin-top: 10px; transition: all 0.2s;
+    }
+    .reset-btn:hover { background: var(--navy); color: #fff; }
+
+    .reference-note {
+      font-size: 0.78rem; color: #aaa; text-align: center;
+      margin-top: 40px; line-height: 1.6;
+    }
+
+    /* Step visibility */
+    .step-panel { display: none; }
+    .step-panel.active { display: block; }
+  }
+
+  /* ===== PRINT ===== */
+  @media print {
+    body { background: #fff; font-family: 'Source Sans 3', Arial, sans-serif; font-size: 10pt; color: #111; }
+    .screen-wrapper { max-width: 100%; padding: 0; }
+
+    #form-section, .nav-buttons, .print-btn, .reset-btn,
+    .reference-note, .progress-bar-wrap, .progress-label { display: none !important; }
+
+    header { border-bottom: 2pt solid #1B2A4A; padding-bottom: 10pt; margin-bottom: 14pt; }
+    .header-text h1 { font-size: 17pt; }
+    .header-text p { font-size: 9pt; color: #E8601C; }
+
+    #results-section { display: block !important; }
+
+    .section-card { border: 1pt solid #ccc; border-radius: 4pt; padding: 12pt; margin-bottom: 10pt; page-break-inside: avoid; }
+    .section-title { font-size: 12pt; margin-bottom: 8pt; }
+    .step-badge { display: none; }
+
+    .domain-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8pt; }
+    .domain-card { border: 1pt solid #ccc; padding: 8pt; border-radius: 3pt; }
+    .domain-card .dc-score { font-size: 18pt; }
+
+    table { font-size: 8pt; }
+    th { background: #1B2A4A !important; color: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .card-good { background: #F0FBF4 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .card-fair { background: #FFFBEB !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .card-poor { background: #FEF2F2 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .pill-good { background: #D4EDDA !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .pill-fair { background: #FFF3CD !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .pill-poor { background: #FDECEA !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+    .rec-list li { font-size: 9pt; }
+    .disclaimer { font-size: 7.5pt; border: 1pt solid #ddd; padding: 7pt; }
+  }
+</style>
+</head>
+<body>
+<div class="screen-wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-block">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Moon -->
+        <path d="M26 20C26 24.418 22.418 28 18 28C13.582 28 10 24.418 10 20C10 15.582 13.582 12 18 12C16.5 13.5 15.5 16 16 19C16.5 22 18.5 24.5 21 25.5C23.5 26.5 25.5 25 26 23.5C26 22.5 26 21 26 20Z" fill="#E8601C"/>
+        <!-- Stars -->
+        <circle cx="29" cy="13" r="1.5" fill="white"/>
+        <circle cx="33" cy="19" r="1" fill="white"/>
+        <circle cx="30" cy="8" r="1" fill="white"/>
+        <circle cx="24" cy="9" r="1" fill="white" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="header-text">
+      <h1>Sleep &amp; Recovery<br>Quality Assessment</h1>
+      <p>Sam Houston State University &mdash; Employee Health Fair 2026</p>
+    </div>
+  </header>
+
+  <!-- FORM SECTION -->
+  <div id="form-section">
+
+    <div class="progress-label" id="progress-label">Step 1 of 4</div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progress-fill" style="width:25%"></div>
+    </div>
+
+    <!-- STEP 1: Participant Info -->
+    <div class="step-panel active" id="step-1">
+      <div class="section-card">
+        <div class="section-title">
+          <span class="step-badge">1</span> Participant Information
+        </div>
+        <div class="section-subtitle">Basic details for your personalized report.</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="field-label" for="name">Full Name</label>
+            <input type="text" id="name" placeholder="Employee name">
+          </div>
+          <div class="form-group">
+            <label class="field-label" for="dept">Department</label>
+            <input type="text" id="dept" placeholder="Department / College">
+          </div>
+          <div class="form-group">
+            <label class="field-label" for="age">Age</label>
+            <input type="number" id="age" min="18" max="99" placeholder="Years">
+          </div>
+          <div class="form-group">
+            <label class="field-label" for="sex">Sex</label>
+            <select id="sex">
+              <option value="">— Select —</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="nav-buttons">
+        <button class="btn-primary" onclick="goStep(2)">Next: Sleep Quality (PSQI) &#8594;</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: PSQI -->
+    <div class="step-panel" id="step-2">
+      <div class="section-card">
+        <div class="section-title">
+          <span class="step-badge">2</span>
+          Pittsburgh Sleep Quality Index
+          <span class="screener-badge badge-psqi">PSQI</span>
+        </div>
+        <div class="section-subtitle">
+          Think about your sleep habits over the <strong>past month</strong>. There are no right or wrong answers.
+        </div>
+
+        <!-- Q1 Bedtime -->
+        <div class="q-block">
+          <div class="q-text">1. During the past month, what time have you usually gone to bed at night?</div>
+          <div class="inline-num">
+            <input type="number" id="p_bedtime_h" min="0" max="23" placeholder="Hour (0–23)" style="width:160px;">
+            <span style="font-size:0.85rem; color:#888;">e.g., 22 = 10 PM, 23 = 11 PM, 0 = midnight</span>
+          </div>
+        </div>
+
+        <!-- Q2 Sleep latency -->
+        <div class="q-block">
+          <div class="q-text">2. How long (in minutes) has it usually taken you to fall asleep each night?</div>
+          <div class="inline-num">
+            <input type="number" id="p_latency" min="0" max="240" placeholder="Minutes" style="width:120px;">
+          </div>
+        </div>
+
+        <!-- Q3 Wake time -->
+        <div class="q-block">
+          <div class="q-text">3. What time have you usually gotten up in the morning?</div>
+          <div class="inline-num">
+            <input type="number" id="p_waketime_h" min="0" max="23" placeholder="Hour (0–23)" style="width:160px;">
+            <span style="font-size:0.85rem; color:#888;">e.g., 6 = 6 AM, 7 = 7 AM</span>
+          </div>
+        </div>
+
+        <!-- Q4 Actual sleep -->
+        <div class="q-block">
+          <div class="q-text">4. How many hours of actual sleep did you get at night? (This may be different from the number of hours you spent in bed.)</div>
+          <div class="inline-num">
+            <input type="number" id="p_sleep_hrs" min="0" max="24" step="0.5" placeholder="Hours" style="width:120px;">
+          </div>
+        </div>
+
+        <!-- Q5 Disturbances -->
+        <div class="q-block">
+          <div class="q-text">5. During the past month, how often have you had trouble sleeping because you…</div>
+          <div class="q-sub">Rate each: 0 = Not during the past month &nbsp;|&nbsp; 1 = Less than once a week &nbsp;|&nbsp; 2 = Once or twice a week &nbsp;|&nbsp; 3 = Three or more times a week</div>
+          <div style="display:flex; flex-direction:column; gap:10px; margin-top:8px;">
+            <!-- 5a -->
+            <div>
+              <div style="font-size:0.88rem; font-weight:600; margin-bottom:6px;">a) Cannot get to sleep within 30 minutes</div>
+              <div class="radio-group" id="p5a" data-q="p5a"></div>
+            </div>
+            <!-- 5b -->
+            <div>
+              <div style="font-size:0.88rem; font-weight:600; margin-bottom:6px;">b) Wake up in the middle of the night or early morning</div>
+              <div class="radio-group" id="p5b" data-q="p5b"></div>
+            </div>
+            <!-- 5c -->
+            <div>
+              <div style="font-size:0.88rem; font-weight:600; margin-bottom:6px;">c) Have to get up to use the bathroom</div>
+              <div class="radio-group" id="p5c" data-q="p5c"></div>
+            </div>
+            <!-- 5d -->
+            <div>
+              <div style="font-size:0.88rem; font-weight:600; margin-bottom:6px;">d) Cannot breathe comfortably</div>
+              <div class="radio-group" id="p5d" data-q="p5d"></div>
+            </div>
+            <!-- 5e -->
+            <div>
+              <div style="font-size:0.88rem; font-weight:600; margin-bottom:6px;">e) Cough or snore loudly</div>
+              <div class="radio-group" id="p5e" data-q="p5e"></div>
+            </div>
+            <!-- 5f -->
+            <div>
+              <div style="font-size:0.88rem; font-weight:600; margin-bottom:6px;">f) Feel too cold</div>
+              <div class="radio-group" id="p5f" data-q="p5f"></div>
+            </div>
+            <!-- 5g -->
+            <div>
+              <div style="font-size:0.88rem; font-weight:600; margin-bottom:6px;">g) Feel too hot</div>
+              <div class="radio-group" id="p5g" data-q="p5g"></div>
+            </div>
+            <!-- 5h -->
+            <div>
+              <div style="font-size:0.88rem; font-weight:600; margin-bottom:6px;">h) Have bad dreams</div>
+              <div class="radio-group" id="p5h" data-q="p5h"></div>
+            </div>
+            <!-- 5i -->
+            <div>
+              <div style="font-size:0.88rem; font-weight:600; margin-bottom:6px;">i) Have pain</div>
+              <div class="radio-group" id="p5i" data-q="p5i"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q6 Sleep quality -->
+        <div class="q-block">
+          <div class="q-text">6. During the past month, how would you rate your sleep quality overall?</div>
+          <div class="radio-group" id="p6" data-q="p6"></div>
+        </div>
+
+        <!-- Q7 Sleep meds -->
+        <div class="q-block">
+          <div class="q-text">7. During the past month, how often have you taken medicine (prescribed or over the counter) to help you sleep?</div>
+          <div class="radio-group" id="p7" data-q="p7"></div>
+        </div>
+
+        <!-- Q8 Staying awake -->
+        <div class="q-block">
+          <div class="q-text">8. During the past month, how often have you had trouble staying awake while driving, eating meals, or engaging in social activity?</div>
+          <div class="radio-group" id="p8" data-q="p8"></div>
+        </div>
+
+        <!-- Q9 Enthusiasm -->
+        <div class="q-block">
+          <div class="q-text">9. During the past month, how much of a problem has it been for you to keep up enough enthusiasm to get things done?</div>
+          <div class="radio-group" id="p9" data-q="p9"></div>
+        </div>
+
+      </div>
+      <div class="nav-buttons">
+        <button class="btn-secondary" onclick="goStep(1)">&#8592; Back</button>
+        <button class="btn-primary" onclick="goStep(3)">Next: Daytime Sleepiness (ESS) &#8594;</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: ESS -->
+    <div class="step-panel" id="step-3">
+      <div class="section-card">
+        <div class="section-title">
+          <span class="step-badge">3</span>
+          Epworth Sleepiness Scale
+          <span class="screener-badge badge-ess">ESS</span>
+        </div>
+        <div class="section-subtitle">
+          How likely are you to doze off or fall asleep in the following situations — in contrast to just feeling tired? Even if you haven't done some of these things recently, try to work out how they would have affected you.<br><br>
+          <strong>0 = Would never doze &nbsp;|&nbsp; 1 = Slight chance &nbsp;|&nbsp; 2 = Moderate chance &nbsp;|&nbsp; 3 = High chance</strong>
+        </div>
+
+        <div id="ess-questions"></div>
+      </div>
+      <div class="nav-buttons">
+        <button class="btn-secondary" onclick="goStep(2)">&#8592; Back</button>
+        <button class="btn-primary" onclick="goStep(4)">Next: Sleep Apnea Risk (STOP-BANG) &#8594;</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: STOP-BANG -->
+    <div class="step-panel" id="step-4">
+      <div class="section-card">
+        <div class="section-title">
+          <span class="step-badge">4</span>
+          STOP-BANG Sleep Apnea Screener
+          <span class="screener-badge badge-stop">STOP-BANG</span>
+        </div>
+        <div class="section-subtitle">
+          Answer Yes or No to each question. This screener identifies your risk for obstructive sleep apnea (OSA).
+        </div>
+        <div id="stopbang-questions"></div>
+      </div>
+      <div class="nav-buttons">
+        <button class="btn-secondary" onclick="goStep(3)">&#8592; Back</button>
+        <button class="btn-primary" onclick="calculate()">&#9654;&nbsp; Generate My Sleep Report</button>
+      </div>
+    </div>
+
+  </div><!-- /#form-section -->
+
+  <!-- RESULTS SECTION -->
+  <div id="results-section">
+
+    <div class="section-card">
+      <div class="result-header">
+        <div>
+          <h2>Sleep &amp; Recovery Report</h2>
+          <div id="participant-summary" style="font-size:0.88rem; color:#666; margin-top:4px;"></div>
+          <div id="print-date" style="font-size:0.78rem; color:#aaa; margin-top:2px;"></div>
+        </div>
+      </div>
+      <!-- Domain score cards -->
+      <div class="domain-cards" id="domain-cards"></div>
+    </div>
+
+    <!-- PSQI Domain Breakdown -->
+    <div class="section-card">
+      <div class="section-title">
+        <span class="step-badge" style="background:#1565C0;">P</span>
+        PSQI — Sleep Quality Domain Breakdown
+        <span class="screener-badge badge-psqi">Pittsburgh Sleep Quality Index</span>
+      </div>
+      <div class="domain-table-wrap">
+        <table id="psqi-table">
+          <thead>
+            <tr>
+              <th>Domain</th>
+              <th>Score (0–3)</th>
+              <th>Interpretation</th>
+            </tr>
+          </thead>
+          <tbody id="psqi-tbody"></tbody>
+        </table>
+      </div>
+      <p style="font-size:0.78rem; color:#888; margin-top:6px;">Global PSQI score: sum of all 7 domain scores. Score &gt; 5 indicates poor sleep quality.</p>
+    </div>
+
+    <!-- ESS Result -->
+    <div class="section-card">
+      <div class="section-title">
+        <span class="step-badge" style="background:#E65100;">E</span>
+        ESS — Daytime Sleepiness Detail
+        <span class="screener-badge badge-ess">Epworth Sleepiness Scale</span>
+      </div>
+      <div id="ess-detail"></div>
+    </div>
+
+    <!-- STOP-BANG Result -->
+    <div class="section-card">
+      <div class="section-title">
+        <span class="step-badge" style="background:#880E4F;">S</span>
+        STOP-BANG — Sleep Apnea Risk Detail
+        <span class="screener-badge badge-stop">STOP-BANG</span>
+      </div>
+      <div id="stopbang-detail"></div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="section-card">
+      <div class="section-title">
+        <span class="step-badge">&#10097;</span> Personalized Recommendations
+      </div>
+      <ul class="rec-list" id="rec-list"></ul>
+      <div class="disclaimer">
+        <strong>Disclaimer:</strong> This screening tool is for educational purposes only and does not constitute a medical diagnosis. The PSQI (Buysse et al., 1989), ESS (Johns, 1991), and STOP-BANG (Chung et al., 2008) are validated clinical screeners. Scores indicating poor sleep quality, excessive sleepiness, or high apnea risk should be discussed with a qualified healthcare provider. SHSU employees may also contact the Employee Assistance Program (EAP) for referrals.
+      </div>
+    </div>
+
+    <button class="print-btn" onclick="window.print()">&#128438;&nbsp; Print / Save PDF Report</button>
+    <button class="reset-btn" onclick="resetForm()">&#8635;&nbsp; Assess Another Participant</button>
+
+  </div><!-- /#results-section -->
+
+  <div class="reference-note">
+    Screeners: PSQI — Buysse et al. (1989) <em>Psychiatry Research</em>; ESS — Johns (1991) <em>Sleep</em>; STOP-BANG — Chung et al. (2008) <em>Anesthesiology</em><br>
+    Developed for the SHSU Employee Health Fair 2026 &bull; Department of Kinesiology, College of Health Sciences
+  </div>
+
+</div><!-- /.screen-wrapper -->
+
+<script>
+// =====================================================
+// DATA DEFINITIONS
+// =====================================================
+
+const freq4Opts = [
+  { val: 0, label: '0 — Not during the past month' },
+  { val: 1, label: '1 — Less than once a week' },
+  { val: 2, label: '2 — Once or twice a week' },
+  { val: 3, label: '3 — Three or more times a week' },
+];
+
+const psqi6Opts = [
+  { val: 0, label: '0 — Very good' },
+  { val: 1, label: '1 — Fairly good' },
+  { val: 2, label: '2 — Fairly bad' },
+  { val: 3, label: '3 — Very bad' },
+];
+
+const psqi89Opts = [
+  { val: 0, label: '0 — No problem at all' },
+  { val: 1, label: '1 — Only a very slight problem' },
+  { val: 2, label: '2 — Somewhat of a problem' },
+  { val: 3, label: '3 — A very big problem' },
+];
+
+const essQuestions = [
+  'Sitting and reading',
+  'Watching TV',
+  'Sitting inactive in a public place (e.g., a theater or a meeting)',
+  'As a passenger in a car for an hour without a break',
+  'Lying down to rest in the afternoon when circumstances permit',
+  'Sitting and talking to someone',
+  'Sitting quietly after a lunch without alcohol',
+  'In a car, while stopped for a few minutes in traffic',
+];
+
+const essOpts = [
+  { val: 0, label: '0 — Would never doze' },
+  { val: 1, label: '1 — Slight chance of dozing' },
+  { val: 2, label: '2 — Moderate chance of dozing' },
+  { val: 3, label: '3 — High chance of dozing' },
+];
+
+const stopbangQuestions = [
+  { id: 'sb_snore',   label: 'S — Snoring: Do you snore loudly (louder than talking or loud enough to be heard through closed doors)?' },
+  { id: 'sb_tired',  label: 'T — Tired: Do you often feel tired, fatigued, or sleepy during the daytime?' },
+  { id: 'sb_obs',    label: 'O — Observed: Has anyone observed you stop breathing during your sleep?' },
+  { id: 'sb_bp',     label: 'P — Pressure: Do you have or are you being treated for high blood pressure?' },
+  { id: 'sb_bmi',    label: 'B — BMI: Is your BMI more than 35?' },
+  { id: 'sb_age',    label: 'A — Age: Are you older than 50?' },
+  { id: 'sb_neck',   label: 'N — Neck: Is your neck circumference greater than 40 cm (15.7 in)?' },
+  { id: 'sb_male',   label: 'G — Gender: Are you male?' },
+];
+
+// =====================================================
+// BUILD DYNAMIC FORM ELEMENTS
+// =====================================================
+
+function buildRadioGroup(containerId, opts, name) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  el.innerHTML = '';
+  opts.forEach(o => {
+    const div = document.createElement('label');
+    div.className = 'radio-option';
+    div.innerHTML = `<input type="radio" name="${name}" value="${o.val}"> ${o.label}`;
+    div.querySelector('input').addEventListener('change', () => {
+      el.querySelectorAll('.radio-option').forEach(x => x.classList.remove('selected'));
+      div.classList.add('selected');
+    });
+    el.appendChild(div);
+  });
+}
+
+// PSQI sub-question groups
+['p5a','p5b','p5c','p5d','p5e','p5f','p5g','p5h','p5i'].forEach(id => buildRadioGroup(id, freq4Opts, id));
+buildRadioGroup('p6', psqi6Opts, 'p6');
+buildRadioGroup('p7', freq4Opts, 'p7');
+buildRadioGroup('p8', psqi89Opts, 'p8');
+buildRadioGroup('p9', psqi89Opts, 'p9');
+
+// ESS
+(function buildESS() {
+  const container = document.getElementById('ess-questions');
+  essQuestions.forEach((q, i) => {
+    const block = document.createElement('div');
+    block.className = 'q-block';
+    block.innerHTML = `<div class="q-text">${i+1}. ${q}</div><div class="radio-group" id="ess${i}" data-q="ess${i}"></div>`;
+    container.appendChild(block);
+  });
+  essQuestions.forEach((_, i) => buildRadioGroup(`ess${i}`, essOpts, `ess${i}`));
+})();
+
+// STOP-BANG
+(function buildSTOP() {
+  const container = document.getElementById('stopbang-questions');
+  stopbangQuestions.forEach(q => {
+    const block = document.createElement('div');
+    block.className = 'q-block';
+    block.innerHTML = `
+      <div class="q-text">${q.label}</div>
+      <div class="yn-group">
+        <button class="yn-btn" onclick="toggleYN('${q.id}', true, this)">Yes</button>
+        <button class="yn-btn" onclick="toggleYN('${q.id}', false, this)">No</button>
+      </div>`;
+    container.appendChild(block);
+  });
+})();
+
+const stopbangValues = {};
+function toggleYN(id, val, btn) {
+  stopbangValues[id] = val;
+  const group = btn.parentElement;
+  group.querySelectorAll('.yn-btn').forEach(b => b.classList.remove('yes-sel','no-sel'));
+  btn.classList.add(val ? 'yes-sel' : 'no-sel');
+}
+
+// =====================================================
+// NAVIGATION
+// =====================================================
+
+let currentStep = 1;
+const totalSteps = 4;
+
+function goStep(n) {
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(`step-${n}`).classList.add('active');
+  currentStep = n;
+  const pct = (n / totalSteps) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = `Step ${n} of ${totalSteps}`;
+  window.scrollTo(0, 0);
+}
+
+// =====================================================
+// HELPERS
+// =====================================================
+
+function getRadioVal(name) {
+  const el = document.querySelector(`input[name="${name}"]:checked`);
+  return el ? parseInt(el.value) : null;
+}
+
+function clamp(val, min, max) { return Math.min(Math.max(val, min), max); }
+
+// =====================================================
+// PSQI SCORING  (Buysse et al., 1989)
+// =====================================================
+
+function scorePSQI() {
+  const bedH   = parseFloat(document.getElementById('p_bedtime_h').value);
+  const wakeH  = parseFloat(document.getElementById('p_waketime_h').value);
+  const latMin = parseFloat(document.getElementById('p_latency').value);
+  const sleepH = parseFloat(document.getElementById('p_sleep_hrs').value);
+
+  // Component 1: Subjective sleep quality (Q6)
+  const c1 = getRadioVal('p6') ?? null;
+
+  // Component 2: Sleep latency (Q2 + Q5a)
+  let latScore = null;
+  if (!isNaN(latMin)) {
+    latScore = latMin <= 15 ? 0 : latMin <= 30 ? 1 : latMin <= 60 ? 2 : 3;
+  }
+  const q5a = getRadioVal('p5a');
+  let c2 = null;
+  if (latScore !== null && q5a !== null) {
+    const sum = latScore + q5a;
+    c2 = sum === 0 ? 0 : sum <= 2 ? 1 : sum <= 4 ? 2 : 3;
+  }
+
+  // Component 3: Sleep duration (Q4)
+  let c3 = null;
+  if (!isNaN(sleepH)) {
+    c3 = sleepH > 7 ? 0 : sleepH >= 6 ? 1 : sleepH >= 5 ? 2 : 3;
+  }
+
+  // Component 4: Sleep efficiency
+  let c4 = null;
+  if (!isNaN(bedH) && !isNaN(wakeH) && !isNaN(sleepH)) {
+    let inBedH = wakeH - bedH;
+    if (inBedH <= 0) inBedH += 24; // crosses midnight
+    const eff = (sleepH / inBedH) * 100;
+    c4 = eff >= 85 ? 0 : eff >= 75 ? 1 : eff >= 65 ? 2 : 3;
+  }
+
+  // Component 5: Sleep disturbances (Q5b–Q5i)
+  const distIds = ['p5b','p5c','p5d','p5e','p5f','p5g','p5h','p5i'];
+  const distVals = distIds.map(id => getRadioVal(id)).filter(v => v !== null);
+  let c5 = null;
+  if (distVals.length === distIds.length) {
+    const sum = distVals.reduce((a,b) => a+b, 0);
+    c5 = sum === 0 ? 0 : sum <= 9 ? 1 : sum <= 18 ? 2 : 3;
+  }
+
+  // Component 6: Use of sleep medication (Q7)
+  const c6 = getRadioVal('p7');
+
+  // Component 7: Daytime dysfunction (Q8 + Q9)
+  const q8 = getRadioVal('p8'), q9 = getRadioVal('p9');
+  let c7 = null;
+  if (q8 !== null && q9 !== null) {
+    const sum = q8 + q9;
+    c7 = sum === 0 ? 0 : sum <= 2 ? 1 : sum <= 4 ? 2 : 3;
+  }
+
+  const components = [c1, c2, c3, c4, c5, c6, c7];
+  const defined = components.filter(c => c !== null);
+  const global = defined.length === 7 ? defined.reduce((a,b)=>a+b,0) : null;
+
+  return { c1,c2,c3,c4,c5,c6,c7, global };
+}
+
+// =====================================================
+// ESS SCORING  (Johns, 1991)
+// =====================================================
+
+function scoreESS() {
+  let total = 0, answered = 0;
+  essQuestions.forEach((_, i) => {
+    const v = getRadioVal(`ess${i}`);
+    if (v !== null) { total += v; answered++; }
+  });
+  return answered === essQuestions.length ? total : null;
+}
+
+// =====================================================
+// STOP-BANG SCORING  (Chung et al., 2008)
+// =====================================================
+
+function scoreSTOPBANG() {
+  let total = 0, answered = 0;
+  stopbangQuestions.forEach(q => {
+    if (stopbangValues[q.id] !== undefined) {
+      if (stopbangValues[q.id] === true) total++;
+      answered++;
+    }
+  });
+  return answered === stopbangQuestions.length ? total : null;
+}
+
+// =====================================================
+// CALCULATE & RENDER RESULTS
+// =====================================================
+
+function calculate() {
+  const name = document.getElementById('name').value || 'Participant';
+  const dept = document.getElementById('dept').value || '—';
+  const age  = parseInt(document.getElementById('age').value);
+  const sex  = document.getElementById('sex').value;
+
+  const psqi = scorePSQI();
+  const ess  = scoreESS();
+  const sb   = scoreSTOPBANG();
+
+  // Determine statuses
+  // PSQI: ≤5 good, 6–10 fair/poor sleep, >10 very poor
+  const psqiStatus = psqi.global === null ? 'incomplete' :
+                     psqi.global <= 5 ? 'good' : psqi.global <= 10 ? 'fair' : 'poor';
+
+  // ESS: 0–10 normal, 11–16 moderate, 17–24 severe
+  const essStatus = ess === null ? 'incomplete' :
+                    ess <= 10 ? 'good' : ess <= 16 ? 'fair' : 'poor';
+
+  // STOP-BANG: 0–2 low, 3–4 intermediate, 5–8 high
+  const sbStatus = sb === null ? 'incomplete' :
+                   sb <= 2 ? 'good' : sb <= 4 ? 'fair' : 'poor';
+
+  // Participant summary
+  document.getElementById('participant-summary').textContent =
+    `${name} | ${dept} | Age: ${age || '—'} | ${sex ? sex.charAt(0).toUpperCase()+sex.slice(1) : '—'}`;
+  document.getElementById('print-date').textContent =
+    'Assessment date: ' + new Date().toLocaleDateString('en-US', {year:'numeric', month:'long', day:'numeric'});
+
+  // ---- DOMAIN CARDS ----
+  const cards = [
+    {
+      label: 'Overall Sleep Quality',
+      screener: 'PSQI',
+      score: psqi.global !== null ? psqi.global : '—',
+      max: '/ 21',
+      status: psqiStatus,
+      statusLabel: psqiStatus === 'good' ? 'Good sleeper' : psqiStatus === 'fair' ? 'Some concerns' : 'Poor sleeper',
+      barPct: psqi.global !== null ? (psqi.global / 21) * 100 : 0,
+    },
+    {
+      label: 'Daytime Sleepiness',
+      screener: 'ESS',
+      score: ess !== null ? ess : '—',
+      max: '/ 24',
+      status: essStatus,
+      statusLabel: essStatus === 'good' ? 'Normal alertness' : essStatus === 'fair' ? 'Moderate sleepiness' : 'Severe sleepiness',
+      barPct: ess !== null ? (ess / 24) * 100 : 0,
+    },
+    {
+      label: 'Sleep Apnea Risk',
+      screener: 'STOP-BANG',
+      score: sb !== null ? sb : '—',
+      max: '/ 8',
+      status: sbStatus,
+      statusLabel: sbStatus === 'good' ? 'Low risk' : sbStatus === 'fair' ? 'Intermediate risk' : 'High risk',
+      barPct: sb !== null ? (sb / 8) * 100 : 0,
+    },
+  ];
+
+  const cardColors = { good: 'card-good', fair: 'card-fair', poor: 'card-poor' };
+  const barColors  = { good: 'bar-good',  fair: 'bar-fair',  poor: 'bar-poor'  };
+  const textColors = { good: 'status-good', fair: 'status-fair', poor: 'status-poor' };
+
+  document.getElementById('domain-cards').innerHTML = cards.map(c => `
+    <div class="domain-card ${cardColors[c.status] || ''}">
+      <div class="dc-label">${c.label}</div>
+      <div class="dc-screener" style="color:#888;">${c.screener}</div>
+      <div class="dc-score ${textColors[c.status] || ''}">${c.score}<span class="dc-max">${c.max}</span></div>
+      <div class="dc-status ${textColors[c.status] || ''}">
+        ${ c.status==='good'?'✓': c.status==='fair'?'◉':'⚠' } ${c.statusLabel}
+      </div>
+      <div class="dc-bar-wrap">
+        <div class="dc-bar ${barColors[c.status] || ''}" style="width:${c.barPct}%"></div>
+      </div>
+    </div>
+  `).join('');
+
+  // ---- PSQI DOMAIN TABLE ----
+  const domainNames = [
+    'C1: Subjective Sleep Quality',
+    'C2: Sleep Latency',
+    'C3: Sleep Duration',
+    'C4: Sleep Efficiency',
+    'C5: Sleep Disturbances',
+    'C6: Use of Sleep Medication',
+    'C7: Daytime Dysfunction',
+  ];
+  const domainInterp = [
+    ['Very good','Fairly good','Fairly bad','Very bad'],
+    ['≤15 min, no trouble','Slight issue','Moderate issue','Severe issue'],
+    ['>7 hrs','6–7 hrs','5–6 hrs','<5 hrs'],
+    ['>85% efficient','75–85%','65–75%','<65%'],
+    ['No disturbances','Mild','Moderate','Severe'],
+    ['None','<1×/week','1–2×/week','≥3×/week or daily'],
+    ['No impairment','Slight','Moderate','Severe'],
+  ];
+  const domainVals = [psqi.c1, psqi.c2, psqi.c3, psqi.c4, psqi.c5, psqi.c6, psqi.c7];
+  const pillClass = v => v === 0 ? 'pill-good' : v === 1 ? 'pill-fair' : 'pill-poor';
+
+  document.getElementById('psqi-tbody').innerHTML = domainVals.map((v, i) => `
+    <tr>
+      <td>${domainNames[i]}</td>
+      <td>${v !== null ? `<span class="score-pill ${pillClass(v)}">${v}</span>` : '<span style="color:#aaa;">—</span>'}</td>
+      <td style="font-size:0.83rem;">${v !== null ? domainInterp[i][v] : 'Not answered'}</td>
+    </tr>
+  `).join('');
+
+  // ---- ESS DETAIL ----
+  const essRanges = [
+    { max: 10, label: 'Normal range of daytime sleepiness', color: 'var(--green-ok)', note: 'Your daytime alertness is within the normal range. No action needed.' },
+    { max: 16, label: 'Moderate excessive daytime sleepiness', color: 'var(--amber)', note: 'You may have moderate excessive daytime sleepiness. Review your sleep habits and consider talking to a healthcare provider if this affects your daily life.' },
+    { max: 24, label: 'Severe excessive daytime sleepiness', color: 'var(--red-risk)', note: 'Your score indicates severe daytime sleepiness. A healthcare consultation is recommended to rule out underlying sleep disorders.' },
+  ];
+  const essRange = ess !== null ? essRanges.find(r => ess <= r.max) : null;
+  document.getElementById('ess-detail').innerHTML = ess !== null ? `
+    <div style="display:flex; align-items:center; gap:14px; margin-bottom:12px;">
+      <div style="font-family:'Playfair Display',serif; font-size:2.4rem; font-weight:900; color:${essRange.color};">${ess}</div>
+      <div>
+        <div style="font-weight:700; color:${essRange.color};">${essRange.label}</div>
+        <div style="font-size:0.82rem; color:#888;">Score range: 0–10 Normal &bull; 11–16 Moderate &bull; 17–24 Severe</div>
+      </div>
+    </div>
+    <div style="font-size:0.9rem; color:#444; line-height:1.55; background:#F8F5F0; padding:12px 16px; border-radius:8px;">${essRange.note}</div>
+    <div style="margin-top:14px;">
+      <table>
+        <thead><tr><th>Situation</th><th>Your Score</th></tr></thead>
+        <tbody>${essQuestions.map((q,i)=>{const v=getRadioVal(`ess${i}`); return `<tr><td>${q}</td><td>${v!==null?`<span class="score-pill ${v<=1?'pill-good':v===2?'pill-fair':'pill-poor'}">${v}</span>`:'—'}</td></tr>`}).join('')}</tbody>
+      </table>
+    </div>
+  ` : '<p style="color:#aaa;">ESS not fully completed.</p>';
+
+  // ---- STOP-BANG DETAIL ----
+  const sbRanges = [
+    { max: 2, label: 'Low Risk for OSA', color: 'var(--green-ok)', note: 'Your responses suggest a low risk of obstructive sleep apnea.' },
+    { max: 4, label: 'Intermediate Risk for OSA', color: 'var(--amber)', note: 'Your responses suggest an intermediate risk for obstructive sleep apnea. Consider discussing with your doctor, especially if you have daytime sleepiness or cardiovascular concerns.' },
+    { max: 8, label: 'High Risk for OSA', color: 'var(--red-risk)', note: 'Your responses suggest a HIGH risk for obstructive sleep apnea. A sleep study (polysomnography) referral is strongly recommended. Untreated OSA is associated with hypertension, cardiovascular disease, and cognitive impairment.' },
+  ];
+  const sbRange = sb !== null ? sbRanges.find(r => sb <= r.max) : null;
+  document.getElementById('stopbang-detail').innerHTML = sb !== null ? `
+    <div style="display:flex; align-items:center; gap:14px; margin-bottom:12px;">
+      <div style="font-family:'Playfair Display',serif; font-size:2.4rem; font-weight:900; color:${sbRange.color};">${sb}/8</div>
+      <div>
+        <div style="font-weight:700; color:${sbRange.color};">${sbRange.label}</div>
+        <div style="font-size:0.82rem; color:#888;">Score: 0–2 Low &bull; 3–4 Intermediate &bull; 5–8 High</div>
+      </div>
+    </div>
+    <div style="font-size:0.9rem; color:#444; line-height:1.55; background:#F8F5F0; padding:12px 16px; border-radius:8px; margin-bottom:14px;">${sbRange.note}</div>
+    <table>
+      <thead><tr><th>Question</th><th>Response</th></tr></thead>
+      <tbody>${stopbangQuestions.map(q=>{const v=stopbangValues[q.id]; return `<tr><td style="font-size:0.83rem;">${q.label}</td><td>${v===undefined?'—':v?`<span class="score-pill pill-poor">Yes</span>`:`<span class="score-pill pill-good">No</span>`}</td></tr>`}).join('')}</tbody>
+    </table>
+  ` : '<p style="color:#aaa;">STOP-BANG not fully completed.</p>';
+
+  // ---- RECOMMENDATIONS ----
+  const recs = [];
+
+  // PSQI-based
+  if (psqi.global !== null) {
+    if (psqi.global > 10) {
+      recs.push({ type: 'alert', text: 'Your PSQI score indicates very poor sleep quality. A consultation with a healthcare provider or sleep specialist is recommended.' });
+    } else if (psqi.global > 5) {
+      recs.push({ type: 'info', text: 'Your overall sleep quality score suggests room for improvement. Focus on sleep hygiene practices to help improve your rest.' });
+    } else {
+      recs.push({ type: 'ok', text: 'Your overall sleep quality score is in the good range. Continue your current sleep habits and monitor annually.' });
+    }
+    if (psqi.c3 !== null && psqi.c3 >= 2) {
+      recs.push({ type: 'info', text: 'Sleep duration: You appear to be getting less than 6 hours of sleep per night. Adults need 7–9 hours. Consider adjusting your schedule to allow for more sleep time.' });
+    }
+    if (psqi.c2 !== null && psqi.c2 >= 2) {
+      recs.push({ type: 'info', text: 'Sleep latency: You take a long time to fall asleep. Try relaxation techniques such as deep breathing, progressive muscle relaxation, or limiting screen exposure 30–60 minutes before bed.' });
+    }
+    if (psqi.c6 !== null && psqi.c6 >= 2) {
+      recs.push({ type: 'alert', text: 'Sleep medication use: You are frequently using sleep medications. Long-term use can be habit-forming. Discuss alternatives (e.g., CBT-I therapy) with your healthcare provider.' });
+    }
+    if (psqi.c4 !== null && psqi.c4 >= 2) {
+      recs.push({ type: 'info', text: 'Sleep efficiency: The time you spend in bed vs. actual sleep time is low. Avoid lying in bed awake for long periods — get up and do a quiet activity until you feel sleepy.' });
+    }
+  }
+
+  // ESS-based
+  if (ess !== null) {
+    if (ess >= 17) {
+      recs.push({ type: 'alert', text: 'Severe daytime sleepiness (ESS ≥ 17): This level of sleepiness poses safety risks (driving, operating equipment). Please seek medical evaluation promptly.' });
+    } else if (ess >= 11) {
+      recs.push({ type: 'info', text: 'Moderate daytime sleepiness (ESS 11–16): Avoid driving when drowsy. Short naps (10–20 min) before 3 PM can help, but do not substitute for addressing the underlying cause.' });
+    }
+  }
+
+  // STOP-BANG based
+  if (sb !== null && sb >= 3) {
+    recs.push({ type: sb >= 5 ? 'alert' : 'info', text: `Sleep apnea risk (STOP-BANG ${sb}/8): ${sb >= 5 ? 'High' : 'Intermediate'} risk for OSA. Untreated sleep apnea is linked to cardiovascular disease, hypertension, and daytime impairment. A sleep study referral is ${sb>=5?'strongly':'reasonably'} recommended.` });
+  }
+
+  // General sleep hygiene tips
+  if (psqiStatus !== 'good' || essStatus !== 'good') {
+    recs.push({ type: 'info', text: 'Sleep hygiene: Maintain a consistent sleep schedule (same bedtime and wake time, even on weekends). Keep your bedroom cool, dark, and quiet.' });
+    recs.push({ type: 'info', text: 'Limit caffeine after 2 PM and avoid alcohol within 3 hours of bedtime — both disrupt sleep architecture and reduce restorative deep sleep.' });
+  }
+
+  recs.push({ type: 'ok', text: 'SHSU employees have access to the Employee Assistance Program (EAP), which can provide referrals to sleep specialists and behavioral health resources at no cost.' });
+  recs.push({ type: 'ok', text: 'Regular physical activity (150 min/week of moderate intensity) is consistently associated with improved sleep quality. Avoid vigorous exercise within 2 hours of bedtime.' });
+
+  document.getElementById('rec-list').innerHTML = recs.map(r => `
+    <li>
+      <div class="rec-icon ${r.type}">${r.type==='alert'?'!':r.type==='info'?'i':'✓'}</div>
+      <span>${r.text}</span>
+    </li>`).join('');
+
+  // Show results
+  document.getElementById('form-section').style.display = 'none';
+  document.getElementById('results-section').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+// =====================================================
+// RESET
+// =====================================================
+
+function resetForm() {
+  // Clear text/number inputs
+  ['name','dept','age','p_bedtime_h','p_waketime_h','p_latency','p_sleep_hrs'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('sex').selectedIndex = 0;
+
+  // Clear radio selections
+  document.querySelectorAll('input[type="radio"]').forEach(r => {
+    r.checked = false;
+    r.closest('.radio-option').classList.remove('selected');
+  });
+
+  // Clear STOP-BANG
+  Object.keys(stopbangValues).forEach(k => delete stopbangValues[k]);
+  document.querySelectorAll('.yn-btn').forEach(b => b.classList.remove('yes-sel','no-sel'));
+
+  document.getElementById('form-section').style.display = 'block';
+  document.getElementById('results-section').style.display = 'none';
+  goStep(1);
+}
+</script>
+</body>
+</html>
